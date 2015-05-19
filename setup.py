@@ -29,9 +29,27 @@
 # https://groups.google.com/d/forum/navitia
 # www.navitia.io
 
-from distutils.core import setup
+from distutils.core import setup, Command
 from setuptools import find_packages
+from distutils.spawn import find_executable
 import glob
+import os
+
+protoc = find_executable("protoc")
+
+
+class BuildPbfCommand(Command):
+    description = "build protocol buffer files"
+    user_options = []
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        os.system('{protoc} -Inavitia-proto --python_out=stat_persistor navitia-proto/*.proto'.format(protoc=protoc))
+
 
 setup(name='stat_persistor',
         version='0.01.0',
@@ -48,4 +66,5 @@ setup(name='stat_persistor',
             ('/usr/share/stat_persistor/migrations/versions', glob.glob('migrations/alembic/versions/*.py')),
             ('/usr/bin', ['stat_persist.py'])
         ],
+        cmdclass={'build_pbf': BuildPbfCommand},
 )

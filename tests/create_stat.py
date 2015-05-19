@@ -30,7 +30,7 @@
 # www.navitia.io
 
 import kombu
-from navitiacommon import stat_pb2
+from stat_persistor import stat_pb2
 import datetime
 import time
 

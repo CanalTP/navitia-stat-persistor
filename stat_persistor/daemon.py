@@ -31,7 +31,7 @@
 
 from stat_persistor.config import Config
 import logging
-import navitiacommon.stat_pb2
+import stat_persistor.stat_pb2
 from google.protobuf.message import DecodeError
 from stat_persistor.saver.statsaver import StatSaver
 from stat_persistor.saver.utils import TechnicalError, FunctionalError
@@ -87,7 +87,7 @@ class StatPersistor(ConsumerMixin):
 
     def process_task(self, body, message):
         logging.getLogger('stat_persistor').debug("Message received")
-        stat_request = navitiacommon.stat_pb2.StatRequest()
+        stat_request = stat_persistor.stat_pb2.StatRequest()
         try:
             stat_request.ParseFromString(body)
             logging.getLogger('stat_persistor').debug('query received: {}'.format(str(stat_request)))
