@@ -50,6 +50,7 @@ def persist_stat_request(meta, conn, stat):
     interpreted_parameters_table = meta.tables['stat.interpreted_parameters']
     journey_request_table = meta.tables['stat.journey_request']
     filter_table = meta.tables['stat.filter']
+    response_table = meta.tables['stat.response']
 
     #stat.requests
     query = request_table.insert()
@@ -104,6 +105,12 @@ def persist_stat_request(meta, conn, stat):
                                                               request_id.inserted_primary_key[0],
                                                               journey_id.inserted_primary_key[0])))
 
+    #stat.response:
+    query = response_table.insert()
+    if stat.response.IsInitialized():
+        conn.execute(query.values(
+            build_stat_response_dict(stat.response, request_id.inserted_primary_key[0])))
+
 def build_stat_request_dict(stat):
     """
     Construit à partir d'un object protobuf pbnavitia.stat.HitStat
@@ -124,10 +131,20 @@ def build_stat_request_dict(stat):
         'end_point_name': stat.end_point_name,
     }
 
+def build_stat_response_dict(response, request_id):
+    """
+    Build from protobuf object pbnavitia.stat.HitStat
+    Use to insert in stat.response table
+    """
+    return{
+        'object_count': response.object_count,
+        'request_id': request_id
+    }
+
 def build_journey_request_dict(journey_request, request_id):
     """
     Construit à partir d'un object protobuf pbnavitia.stat.HitStat
-    Utilisé pour l'insertion dans la table stat.requests
+    Utilisé pour l'insertion dans la table stat.journey_request
     """
     return{
         'requested_date_time': get_datetime_from_timestamp(journey_request.requested_date_time),
