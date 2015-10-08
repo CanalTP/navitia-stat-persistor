@@ -137,14 +137,14 @@ def build_stat_response_dict(response, request_id):
     Use to insert in stat.response table
     """
     return{
-        'object_count': response.object_count,
+        'item_on_page': response.item_on_page,
         'request_id': request_id
     }
 
 def build_journey_request_dict(journey_request, request_id):
     """
-    Construit à partir d'un object protobuf pbnavitia.stat.HitStat
-    Utilisé pour l'insertion dans la table stat.journey_request
+    Build from protobuf object pbnavitia.stat.HitStat
+    Use to insert in stat.journey_request table
     """
     return{
         'requested_date_time': get_datetime_from_timestamp(journey_request.requested_date_time),
