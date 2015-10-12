@@ -1,4 +1,4 @@
-"""add journey_request
+"""add response
 
 Revision ID: fos5a55d7a
 Revises: 14a0ba4227ce
