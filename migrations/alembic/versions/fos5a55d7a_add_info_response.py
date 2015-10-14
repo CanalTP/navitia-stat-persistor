@@ -15,7 +15,7 @@ import sqlalchemy as sa
 
 def upgrade():
     op.create_table(
-        'response',
+        'info_response',
         sa.Column('object_count', sa.Integer(), nullable=False),
         sa.Column('request_id', sa.BigInteger(), nullable=False),
         sa.ForeignKeyConstraint(['request_id'], ['stat.requests.id'],),
