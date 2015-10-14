@@ -1,4 +1,4 @@
-"""add response
+"""add info_response
 
 Revision ID: fos5a55d7a
 Revises: 14a0ba4227ce
@@ -16,11 +16,11 @@ import sqlalchemy as sa
 def upgrade():
     op.create_table(
         'response',
-        sa.Column('item_on_page', sa.Integer(), nullable=False),
+        sa.Column('object_count', sa.Integer(), nullable=False),
         sa.Column('request_id', sa.BigInteger(), nullable=False),
         sa.ForeignKeyConstraint(['request_id'], ['stat.requests.id'],),
         schema='stat'
     )
 
 def downgrade():
-    op.drop_table('response', schema='stat')
+    op.drop_table('info_response', schema='stat')

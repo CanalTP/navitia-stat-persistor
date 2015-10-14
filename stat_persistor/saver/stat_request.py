@@ -50,7 +50,7 @@ def persist_stat_request(meta, conn, stat):
     interpreted_parameters_table = meta.tables['stat.interpreted_parameters']
     journey_request_table = meta.tables['stat.journey_request']
     filter_table = meta.tables['stat.filter']
-    response_table = meta.tables['stat.response']
+    info_response_table = meta.tables['stat.info_response']
 
     #stat.requests
     query = request_table.insert()
@@ -105,11 +105,11 @@ def persist_stat_request(meta, conn, stat):
                                                               request_id.inserted_primary_key[0],
                                                               journey_id.inserted_primary_key[0])))
 
-    #stat.response:
-    query = response_table.insert()
-    if stat.response.IsInitialized():
+    #stat.info_response:
+    query = info_response_table.insert()
+    if stat.info_response.IsInitialized():
         conn.execute(query.values(
-            build_stat_response_dict(stat.response, request_id.inserted_primary_key[0])))
+            build_stat_info_response_dict(stat.info_response, request_id.inserted_primary_key[0])))
 
 def build_stat_request_dict(stat):
     """
@@ -131,13 +131,13 @@ def build_stat_request_dict(stat):
         'end_point_name': stat.end_point_name,
     }
 
-def build_stat_response_dict(response, request_id):
+def build_stat_info_response_dict(info_response, request_id):
     """
     Build from protobuf object pbnavitia.stat.HitStat
-    Use to insert in stat.response table
+    Use to insert in stat.info_response table
     """
-    return{
-        'item_on_page': response.item_on_page,
+    return {
+        'object_count': info_response.object_count,
         'request_id': request_id
     }
 
