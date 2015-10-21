@@ -79,6 +79,10 @@ class StatSaver(object):
                                      autoload=True,
                                      schema='stat')
 
+        self.info_response = Table('info_response', self.meta,
+                                     autoload=True,
+                                     schema='stat')
+
         self.filter = Table('filter', self.meta,
                                      autoload=True,
                                      schema='stat')
