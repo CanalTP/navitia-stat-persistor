@@ -133,8 +133,8 @@ def build_stat_request_dict(stat):
 
 def build_stat_info_response_dict(info_response, request_id):
     """
-    Build from protobuf object pbnavitia.stat.HitStat
-    Use to insert in stat.info_response table
+    Built from protobuf object pbnavitia.stat.HitStat
+    Used to insert in stat.info_response table
     """
     return {
         'object_count': info_response.object_count,
@@ -143,8 +143,8 @@ def build_stat_info_response_dict(info_response, request_id):
 
 def build_journey_request_dict(journey_request, request_id):
     """
-    Build from protobuf object pbnavitia.stat.HitStat
-    Use to insert in stat.journey_request table
+    Built from protobuf object pbnavitia.stat.HitStat
+    Used to insert in stat.journey_request table
     """
     return{
         'requested_date_time': get_datetime_from_timestamp(journey_request.requested_date_time),
