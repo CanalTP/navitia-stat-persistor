@@ -17,14 +17,10 @@ import sqlalchemy as sa
 def upgrade():
     op.drop_index('coverages_region_id_idx', schema='stat')
     op.drop_index('journey_sections_from_admin_id_idx', schema='stat')
-    op.drop_index('requests_api_idx', schema='stat')
     op.drop_index('requests_user_id_idx', schema='stat')
-    op.drop_index('requests_user_name_idx', schema='stat')
 
 
 def downgrade():
     op.create_index('coverages_region_id_idx', 'coverages', ['region_id'], schema='stat')
     op.create_index('journey_sections_from_admin_id_idx', 'journey_sections', ['from_admin_id'], schema='stat')
-    op.create_index('requests_api_idx', 'requests', ['api'], schema='stat')
     op.create_index('requests_user_id_idx', 'requests', ['user_id'], schema='stat')
-    op.create_index('requests_user_name_idx', 'requests', ['user_name'], schema='stat')
