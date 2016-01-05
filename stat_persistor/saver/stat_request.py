@@ -129,6 +129,7 @@ def build_stat_request_dict(stat):
         'response_size': stat.response_size,
         'end_point_id': stat.end_point_id,
         'end_point_name': stat.end_point_name,
+        'token': stat.token
     }
 
 def build_stat_info_response_dict(info_response, request_id):
