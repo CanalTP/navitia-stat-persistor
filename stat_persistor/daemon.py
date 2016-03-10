@@ -73,7 +73,10 @@ class StatPersistor(ConsumerMixin):
         self.queues.append(queue)
 
     def get_consumers(self, Consumer, channel):
-        return [Consumer(queues=self.queues, callbacks=[self.process_task])]
+        consumers = [Consumer(queues=self.queues, callbacks=[self.process_task])]
+        for c in consumers:
+            c.qos(prefetch_count=1000)
+        return consumers
 
     def handle_statistics(self, stat_hit):
         if stat_hit.IsInitialized():
