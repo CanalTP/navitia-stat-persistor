@@ -64,12 +64,12 @@ class StatPersistor(ConsumerMixin):
         """
         self.connection = kombu.Connection(self.config.broker_url)
         exchange_name = self.config.exchange_name
-        exchange = kombu.Exchange(exchange_name, type="direct")
+        exchange = kombu.Exchange(exchange_name, type="topic")
         logging.getLogger('stat_persistor').info("listen following exchange: %s",
                                          self.config.exchange_name)
 
         queue_name = self.config.queue_name
-        queue = kombu.Queue(queue_name, exchange=exchange, durable=True)
+        queue = kombu.Queue(queue_name, exchange=exchange, routing_key='#', durable=True)
         self.queues.append(queue)
 
     def get_consumers(self, Consumer, channel):
