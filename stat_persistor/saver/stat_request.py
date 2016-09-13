@@ -63,10 +63,9 @@ def persist_stat_request(meta, conn, stat):
             build_stat_coverage_dict(coverage, request_id.inserted_primary_key[0])))
 
     #stat.parameters
-    query = parameter_table.insert()
-    for param in stat.parameters:
-        conn.execute(query.values(
-            build_stat_parameter_dict(param, request_id.inserted_primary_key[0])))
+    params = [build_stat_parameter_dict(param, request_id.inserted_primary_key[0]) for param in stat.parameters]
+    if params:
+        conn.execute(parameter_table.insert(), params)
 
     #stat.interpreted_parameters
     query = interpreted_parameters_table.insert()
@@ -99,11 +98,11 @@ def persist_stat_request(meta, conn, stat):
                                                  request_id.inserted_primary_key[0])))
 
         #stat.journey_sections:
-        query = journey_section_table.insert()
-        for section in journey.sections:
-            conn.execute(query.values(build_stat_section_dict(section,
-                                                              request_id.inserted_primary_key[0],
-                                                              journey_id.inserted_primary_key[0])))
+        sections = [build_stat_section_dict(section,
+            request_id.inserted_primary_key[0],
+            journey_id.inserted_primary_key[0]) for section in journey.sections]
+        if sections:
+            conn.execute(journey_section_table.insert(), sections)
 
     #stat.info_response:
     query = info_response_table.insert()
@@ -260,13 +259,13 @@ def build_stat_section_dict(section, request_id, journey_id):
         'from_embedded_type': section.from_embedded_type,
         'from_id': section.from_id,
         'from_name': section.from_name,
-        'from_coord': func.ST_GeomFromtext(from_point, 4326),
+        'from_coord': from_point,
         'from_admin_id': section.from_admin_id,
         'from_admin_name': section.from_admin_name,
         'to_embedded_type': section.to_embedded_type,
         'to_id': section.to_id,
         'to_name': section.to_name,
-        'to_coord': func.ST_GeomFromtext(to_point, 4326),
+        'to_coord': to_point,
         'to_admin_id': section.to_admin_id,
         'to_admin_name': section.to_admin_name,
         'vehicle_journey_id': section.vehicle_journey_id,
