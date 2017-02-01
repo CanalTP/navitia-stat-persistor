@@ -116,7 +116,7 @@ def build_stat_request_dict(stat):
     Utilisé pour l'insertion dans la table stat.requests
     """
     return{
-        'request_date': get_datetime_from_timestamp(stat.request_date),
+        'request_date': get_utcdatetime_from_timestamp(stat.request_date),
         'user_id': stat.user_id,
         'user_name': stat.user_name,
         'app_id': stat.application_id,
@@ -210,6 +210,17 @@ def get_datetime_from_timestamp(date_time):
         request_date_time = 0
 
     return request_date_time.strftime('%Y%m%d %H:%M:%S')
+
+
+def get_utcdatetime_from_timestamp(timestamp):
+    try:
+        request_date_time = datetime.datetime.utcfromtimestamp(timestamp)
+    except ValueError as e:
+        logging.getLogger("Unable to parse date: %s", str(e))
+        request_date_time = 0
+
+    return request_date_time.strftime('%Y%m%d %H:%M:%S')
+
 
 def build_stat_journey_dict(journey, request_id):
     """
